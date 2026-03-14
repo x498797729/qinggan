@@ -1,0 +1,48 @@
+.DS_Store
+.localized
+*.pdf
+*.docx
+*.html
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.zip
+*.rar
+*.7z
+*.exe
+*.dmg
+*.iso
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Chinese directories (seem to be project assets)
+"14-*/"
+"AI*/"
+"截图*/"
+"未命名*/"
+"分析*/"
+"素材*/"
+"课堂笔记*/"
+"简化*/"
+"「霸气」*/"
+"国潮*/"
+
+# Claude Code directory
+.claude/
+
+# Skills repository (appears to be a separate project)
+../skills-repo/
