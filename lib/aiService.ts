@@ -54,7 +54,7 @@ export const aiService = {
   },
 
   // 构建情绪上下文
-  private buildEmotionContext(checkIn: EmotionCheckIn): string {
+  buildEmotionContext(checkIn: EmotionCheckIn): string {
     const emotionInfo = {
       anxious: '用户感到焦虑不安，可能面临压力或不确定的情况',
       stressed: '用户感到压力很大，可能有很多事情需要处理',
@@ -69,7 +69,7 @@ export const aiService = {
   },
 
   // 获取情绪标签
-  private getEmotionLabel(emotion: string): string {
+  getEmotionLabel(emotion: string): string {
     const labels = {
       anxious: '焦虑',
       stressed: '压力大',
@@ -83,7 +83,7 @@ export const aiService = {
   },
 
   // 计算共情级别
-  private calculateEmpathyLevel(intensity: number): number {
+  calculateEmpathyLevel(intensity: number): number {
     // 根据情绪强度调整共情级别
     if (intensity >= 8) return 5; // 高强度需要深度共情
     if (intensity >= 6) return 4;
@@ -93,7 +93,7 @@ export const aiService = {
   },
 
   // 获取备用回应
-  private getFallbackResponse(checkIn: EmotionCheckIn): AIResponse {
+  getFallbackResponse(checkIn: EmotionCheckIn): AIResponse {
     const fallbackMessages = {
       anxious: "我感受到你现在有些焦虑。这种感觉确实不容易，但请记住，焦虑只是暂时的。你已经很勇敢地来这里分享你的感受了。让我们一起慢慢来，不用着急。",
       stressed: "听起来你现在的压力很大。生活中的各种责任确实会让人感到喘不过气。但我想告诉你，你的感受是完全正常的。每个人都会有这样的时候。",
@@ -112,7 +112,7 @@ export const aiService = {
   },
 
   // 获取默认建议
-  private getDefaultSuggestions(emotion: string, intensity: number): ActionSuggestion[] {
+  getDefaultSuggestions(emotion: string, intensity: number): ActionSuggestion[] {
     const baseSuggestions = [
       {
         type: 'breathing' as const,

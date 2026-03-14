@@ -5,6 +5,7 @@ import { format, subDays, startOfDay } from 'date-fns';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Navigation from '../components/Navigation';
 import { emotionAnalytics, emotionLabels, emotionColors } from '../utils/emotionAnalytics';
+import { Action } from '../types';
 
 export default function History() {
   const emotions = useSelector((state: RootState) => state.app.emotions);
@@ -19,7 +20,7 @@ export default function History() {
   }, [emotions]);
 
   const insights = useMemo(() => {
-    const actions = []; // 暂时为空，后续可以从store获取
+    const actions: Action[] = []; // 暂时为空，后续可以从store获取
     return emotionAnalytics.generateInsights(emotions, actions);
   }, [emotions]);
 

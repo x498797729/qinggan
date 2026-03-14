@@ -45,7 +45,7 @@ export const emotionAnalytics = {
   },
 
   // 获取主导情绪
-  private getDominantEmotion(emotions: Emotion[]): Emotion['emotion_type'] {
+  getDominantEmotion(emotions: Emotion[]): Emotion['emotion_type'] {
     const emotionCounts = emotions.reduce((acc, emotion) => {
       acc[emotion.emotion_type] = (acc[emotion.emotion_type] || 0) + 1;
       return acc;
@@ -97,7 +97,7 @@ export const emotionAnalytics = {
   },
 
   // 计算连续天数
-  private calculateStreakDays(emotions: Emotion[]): number {
+  calculateStreakDays(emotions: Emotion[]): number {
     const sortedEmotions = emotions
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
@@ -123,7 +123,7 @@ export const emotionAnalytics = {
   },
 
   // 计算改善趋势
-  private calculateImprovementTrend(emotions: Emotion[]): number {
+  calculateImprovementTrend(emotions: Emotion[]): number {
     const sortedEmotions = emotions
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
