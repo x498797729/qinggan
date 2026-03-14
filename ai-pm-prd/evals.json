@@ -1,0 +1,53 @@
+{
+  "skill_name": "ai-pm-prd",
+  "evals": [
+    {
+      "id": "test-001",
+      "prompt": "我想做一个工具，帮我快速整理会议笔记",
+      "should_trigger": true,
+      "expected_behavior": "Skill should start guided conversation about the meeting notes tool"
+    },
+    {
+      "id": "test-002",
+      "prompt": "帮我写个PRD，我要做一个类似Notion的文档工具，但是更简单",
+      "should_trigger": true,
+      "expected_behavior": "Skill should recognize PRD request and start guided flow"
+    },
+    {
+      "id": "test-003",
+      "prompt": "我用Claude Code想快速做个原型，需要一个AI写代码的助手",
+      "should_trigger": true,
+      "expected_behavior": "Skill should trigger for vibe coding context"
+    },
+    {
+      "id": "test-004",
+      "prompt": "我有个想法，但不知道怎么跟AI说清楚我要做什么",
+      "should_trigger": true,
+      "expected_behavior": "Skill should identify this as a PRD clarification need"
+    },
+    {
+      "id": "test-005",
+      "prompt": "写一个斐波那契数列的函数",
+      "should_trigger": false,
+      "expected_behavior": "This is a direct coding task, not a PRD need"
+    },
+    {
+      "id": "test-006",
+      "prompt": "帮我分析一下SaaS产品的市场机会",
+      "should_trigger": false,
+      "expected_behavior": "This is market analysis, out of scope for this skill"
+    },
+    {
+      "id": "test-007",
+      "prompt": "我应该做这个产品吗？帮我分析一下商业模式",
+      "should_trigger": false,
+      "expected_behavior": "This is strategic decision, explicitly out of scope"
+    },
+    {
+      "id": "test-008",
+      "prompt": "老板让我做个演示，需要一个dashboard",
+      "should_trigger": true,
+      "expected_behavior": "Skill should trigger for dashboard PRD needs"
+    }
+  ]
+}
