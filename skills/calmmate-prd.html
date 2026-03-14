@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmMate PRD - AI情绪疗愈助手产品需求文档</title>
+    <style>
+        :root {
+            --primary: #8B7355;
+            --primary-light: #A68B6A;
+            --primary-dark: #6B5A47;
+            --accent-blue: #7BA0B8;
+            --bg-primary: #FEFCF8;
+            --bg-secondary: #F8F5F0;
+            --text-primary: #2D2D2D;
+            --text-secondary: #6B6B6B;
+            --text-muted: #9E9E9E;
+            --border: #E8E4E0;
+            --success: #8FAE95;
+            --warning: #C4A873;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 60px;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .section p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        /* Lists */
+        .checklist {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .exclusion-list li::before {
+            content: "✗";
+            color: var(--warning);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 32px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 12px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: var(--border);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .callout-success {
+            border-left-color: var(--success);
+        }
+
+        .callout-warning {
+            border-left-color: var(--warning);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .section {
+                padding: 24px;
+            }
+
+            .meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>CalmMate PRD</h1>
+            <p class="subtitle">AI情绪疗愈助手产品需求文档</p>
+            <div class="meta">
+                <span>📅 2026年3月14日</span>
+                <span>📝 版本 1.0</span>
+                <span>🎯 MVP范围确认</span>
+            </div>
+        </header>
+
+        <!-- Product Overview -->
+        <section class="section">
+            <h2>🎯 产品概述</h2>
+            <p><strong>CalmMate</strong> 是一款专注大学生焦虑疏导的AI疗愈助手，通过"情绪疏导+轻量行动"帮助用户建立正向情绪循环。</p>
+
+            <div class="callout">
+                <h4>🎯 核心定位</h4>
+                <p><strong>目标用户：</strong>20岁左右大学生，面临学业压力、社交焦虑、空虚感</p>
+                <p><strong>核心价值：</strong>从"用户不问AI不答"进化到主动关怀的疗愈体验</p>
+                <p><strong>差异化：</strong>专注垂直细分，避免泛陪伴陷阱</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">3个</div>
+                    <div class="metric-label">MVP核心功能</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">6周</div>
+                    <div class="metric-label">开发周期</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">40%</div>
+                    <div class="metric-label">次日留存目标</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">5%</div>
+                    <div class="metric-label">付费转化率</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Background -->
+        <section class="section">
+            <h2>📊 市场背景与机会</h2>
+
+            <h3>行业痛点分析</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🔴 情感真实性缺失</h4>
+                    <p>87%用户认为AI缺乏真实情感连接，像复读机一样机械化</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🧠 记忆能力不足</h4>
+                    <p>AI记不住对话历史，每次都要重新介绍基本信息</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⚡ 技术故障频发</h4>
+                    <p>应用崩溃、响应延迟严重影响使用体验</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📉 留存率低下</h4>
+                    <p>多数用户1-2个月即流失，月使用不足5天</p>
+                </div>
+            </div>
+
+            <h3>产品机会窗口</h3>
+            <div class="callout callout-success">
+                <h4>✅ 市场空白</h4>
+                <ul class="checklist">
+                    <li>真实情感AI伴侣：深度情感理解+个性化成长</li>
+                    <li>长期记忆系统：持续个人化体验</li>
+                    <li>垂直细分定位：专注大学生焦虑疏导</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- MVP Features -->
+        <section class="section">
+            <h2>🚀 MVP功能规格</h2>
+
+            <div class="callout">
+                <h4>🎯 MVP核心三件套</h4>
+                <p>宁可只留3个功能做到极致，也不要7个功能每个都半吊子</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📝 极简情绪签到对话</h4>
+                    <p><strong>核心价值：</strong>3-5分钟结构化短对话，快速情绪收集+AI共情回应</p>
+                    <p><strong>验收标准：</strong>90%用户反馈"感觉被理解"</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎯 微行动推荐系统</h4>
+                    <p><strong>核心价值：</strong>基于情绪状态推荐3种基础行动（呼吸/感恩/运动）</p>
+                    <p><strong>验收标准：</strong>用户完成率 > 60%</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 情绪轨迹可视化</h4>
+                    <p><strong>核心价值：</strong>7天情绪变化曲线，让用户看到自己的进步</p>
+                    <p><strong>验收标准：</strong>建立正向反馈循环</p>
+                </div>
+            </div>
+
+            <h3>✅ MVP包含功能</h3>
+            <ul class="checklist">
+                <li>极简情绪签到：3分钟快速情绪记录+AI回应</li>
+                <li>微行动推荐：3种基础行动类型+简单指导</li>
+                <li>情绪轨迹图：7天情绪变化可视化</li>
+            </ul>
+
+            <h3>❌ MVP排除功能</h3>
+            <ul class="checklist exclusion-list">
+                <li>深度对话系统（V1.1+）</li>
+                <li>复杂记忆功能（V1.1+）</li>
+                <li>多维情绪标签（V1.1+）</li>
+                <li>个性化推荐算法（V1.1+）</li>
+                <li>月度报告（V2.0+）</li>
+                <li>匿名社区（V2.0+）</li>
+                <li>危机干预（V2.0+）</li>
+            </ul>
+        </section>
+
+        <!-- Technical Architecture -->
+        <section class="section">
+            <h2>🏗️ 技术架构</h2>
+
+            <h3>前端技术栈</h3>
+            <div class="code-block">
+                框架：React Native + TypeScript<br>
+                UI库：React Native Paper<br>
+                状态管理：Redux Toolkit<br>
+                本地存储：AsyncStorage + SQLite
+            </div>
+
+            <h3>后端技术栈</h3>
+            <div class="code-block">
+                语言：Node.js + TypeScript<br>
+                框架：Express.js<br>
+                数据库：SQLite（初期）→ PostgreSQL（后期）<br>
+                AI服务：OpenAI API + 自定义Prompt工程<br>
+                部署：Vercel + Railway
+            </div>
+
+            <h3>核心数据模型</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>数据表</th>
+                            <th>核心字段</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>users</td>
+                            <td>id, email, nickname, subscription_type</td>
+                            <td>用户基本信息</td>
+                        </tr>
+                        <tr>
+                            <td>emotions</td>
+                            <td>user_id, emotion_type, intensity, content</td>
+                            <td>情绪记录</td>
+                        </tr>
+                        <tr>
+                            <td>conversations</td>
+                            <td>user_id, session_id, user_message, ai_response</td>
+                            <td>对话记录</td>
+                        </tr>
+                        <tr>
+                            <td>actions</td>
+                            <td>user_id, action_type, mood_before, mood_after</td>
+                            <td>行动记录</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Business Model -->
+        <section class="section">
+            <h2>💰 商业模式</h2>
+
+            <h3>定价策略</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🆓 免费版</h4>
+                    <p>每日3次情绪记录<br>3种基础行动<br>基础记忆功能</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💎 专业版</h4>
+                    <p>15元/月 或 98元/年<br>无限情绪记录<br>20+专业行动库<br>深度个性化</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎓 教育优惠</h4>
+                    <p>8元/月（需学生证）<br>专业版所有功能</p>
+                </div>
+            </div>
+
+            <h3>收入预测</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">1万</div>
+                    <div class="metric-label">第一年用户目标</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">576万</div>
+                    <div class="metric-label">第一年收入目标</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">15元</div>
+                    <div class="metric-label">平均获客成本</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3倍</div>
+                    <div class="metric-label">LTV/CAC比率</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UI/UX Design -->
+        <section class="section">
+            <h2>🎨 UI/UX设计规范</h2>
+
+            <h3>设计原则</h3>
+            <div class="callout">
+                <h4>✨ 设计理念</h4>
+                <ul class="checklist">
+                    <li>Calm App的留白感 + flomo的轻量记录感</li>
+                    <li>界面要有呼吸感，不拥挤，一眼看到核心内容</li>
+                    <li>绝对不要暗色系、赛博风、二次元风格</li>
+                </ul>
+            </div>
+
+            <h3>色彩系统</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🎨 主色调</h4>
+                    <p>温暖的咖啡棕色 (#8B7355)<br>营造安全、温暖的氛围</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💙 辅助色</h4>
+                    <p>雾霾蓝 (#7BA0B8)<br>增加清新感和专业度</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🤍 背景色</h4>
+                    <p>温暖的米白色 (#FEFCF8)<br>提供舒适的阅读体验</p>
+                </div>
+            </div>
+
+            <h3>核心界面规范</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>界面</th>
+                            <th>设计重点</th>
+                            <th>用户体验目标</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>情绪签到</td>
+                            <td>极简输入，引导式问题</td>
+                            <td>3分钟内完成情绪记录</td>
+                        </tr>
+                        <tr>
+                            <td>对话界面</td>
+                            <td>舒适气泡，充足留白</td>
+                            <td>让用户感到被倾听和理解</td>
+                        </tr>
+                        <tr>
+                            <td>情绪轨迹</td>
+                            <td>美观曲线，直观数据</td>
+                            <td>看到自己的进步和变化</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Implementation Plan -->
+        <section class="section">
+            <h2>📅 实施计划</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>第1-2周：技术架构搭建</h4>
+                        <p>搭建React Native开发环境，设计数据库结构，确定AI服务接口</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>第3-4周：核心功能开发</h4>
+                        <p>实现情绪签到、AI对话、微行动推荐三个核心功能</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>第5-6周：测试优化</h4>
+                        <p>性能优化、Bug修复、UI/UX优化，准备上线</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>第7-9周：种子用户测试</h4>
+                        <p>招募100名目标用户封闭测试，验证核心假设</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>第10周+：正式发布</h4>
+                        <p>小范围校园推广，监控核心指标，持续迭代</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Metrics -->
+        <section class="section">
+            <h2>🎯 成功指标</h2>
+
+            <h3>产品健康度指标</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">> 40%</div>
+                    <div class="metric-label">次日留存率</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">> 20%</div>
+                    <div class="metric-label">7日留存率</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">> 4.0</div>
+                    <div class="metric-label">用户满意度</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">> 8分钟</div>
+                    <div class="metric-label">平均使用时长</div>
+                </div>
+            </div>
+
+            <h3>业务健康度指标</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">> 5%</div>
+                    <div class="metric-label">付费转化率</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">< 15元</div>
+                    <div class="metric-label">获客成本</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">> 3倍</div>
+                    <div class="metric-label">LTV/CAC</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">> 0.1%</div>
+                    <div class="metric-label">崩溃率</div>
+                </div>
+            </div>
+
+            <div class="callout callout-success">
+                <h4>✅ MVP验证成功标准</h4>
+                <ul class="checklist">
+                    <li>用户愿意每天回来使用</li>
+                    <li>用户反馈"这个产品帮我缓解了焦虑"</li>
+                    <li>用户自发推荐给朋友</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Risk Assessment -->
+        <section class="section">
+            <h2>⚠️ 风险评估与应对</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🔧 技术风险</h4>
+                    <p><strong>AI回复质量不稳定</strong><br>→ 准备人工模板库fallback</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📱 产品风险</h4>
+                    <p><strong>留存不达标</strong><br>→ 加强冷启动体验 + 增加社交元素</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💰 商业风险</h4>
+                    <p><strong>付费转化低</strong><br>→ 优化价值展示 + 调整定价策略</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🏃 市场风险</h4>
+                    <p><strong>竞争加剧</strong><br>→ 专注垂直细分 + 建立社区壁垒</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="section">
+            <h2>🎯 总结</h2>
+
+            <div class="callout">
+                <h4>✨ CalmMate核心价值闭环</h4>
+                <div class="code-block">
+                    用户情绪困扰 → 打开CalmMate → 3分钟情绪签到 → AI共情疏导<br>
+                    → 获得微行动建议 → 5分钟实践 → 完成情绪打卡 → 看到变化轨迹<br>
+                    → 建立正向循环 → 持续使用
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🎯 产品定位</h4>
+                    <p>专注大学生焦虑疏导的AI疗愈助手，通过"情绪疏导+轻量行动"建立正向循环</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🚀 MVP策略</h4>
+                    <p>3个核心功能做到极致，确保最小可行闭环，快速验证市场假设</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💰 商业模式</h4>
+                    <p>免费版+专业版分层，符合学生消费能力，留有后续涨价空间</p>
+                </div>
+            </div>
+
+            <div class="callout callout-success">
+                <h4>🎯 下一步行动</h4>
+                <ol>
+                    <li>技术准备：搭建开发环境，确定技术栈</li>
+                    <li>设计执行：制作高保真原型图</li>
+                    <li>AI训练：准备Prompt模板和对话流程</li>
+                    <li>团队组建：确定开发人员和设计师</li>
+                    <li>资金规划：准备MVP开发预算</li>
+                </ol>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // 添加一些简单的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // 时间线动画
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    item.style.transition = 'all 0.6s ease-out';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

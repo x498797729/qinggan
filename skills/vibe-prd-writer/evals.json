@@ -1,0 +1,53 @@
+{
+  "skill_name": "vibe-prd-writer",
+  "evals": [
+    {
+      "id": "test-001",
+      "prompt": "帮我写个PRD",
+      "should_trigger": true,
+      "expected_behavior": "Should detect that user's idea is vague and start guided flow with first question"
+    },
+    {
+      "id": "test-002",
+      "prompt": "我想做一个笔记工具，能自动提取待办事项，用 Next.js",
+      "should_trigger": true,
+      "expected_behavior": "Should detect user has relatively clear idea, confirm and jump to key questions"
+    },
+    {
+      "id": "test-003",
+      "prompt": "帮我梳理需求，我要vibe code一个产品",
+      "should_trigger": true,
+      "expected_behavior": "Should trigger and assess user's clarity before guiding"
+    },
+    {
+      "id": "test-004",
+      "prompt": "我想做一个XX，不知道怎么跟 AI 说清楚",
+      "should_trigger": true,
+      "expected_behavior": "Should recognize vague idea and start guided flow"
+    },
+    {
+      "id": "test-005",
+      "prompt": "写一个斐波那契函数",
+      "should_trigger": false,
+      "expected_behavior": "This is a direct coding task, not a PRD need"
+    },
+    {
+      "id": "test-006",
+      "prompt": "帮我分析一下这个商业机会",
+      "should_trigger": false,
+      "expected_behavior": "This is business analysis, out of scope for this PRD skill"
+    },
+    {
+      "id": "test-007",
+      "prompt": "我要做一个类似Notion的文档工具，要有协同编辑、AI辅助写作、版本控制、模板库",
+      "should_trigger": true,
+      "expected_behavior": "Should detect feature creep and guide user to prioritize and cut scope"
+    },
+    {
+      "id": "test-008",
+      "prompt": "我要vibe code一个导航站",
+      "should_trigger": true,
+      "expected_behavior": "Should recommend HTML + Tailwind + static deployment stack"
+    }
+  ]
+}

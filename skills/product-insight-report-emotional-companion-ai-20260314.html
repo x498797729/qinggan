@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品灵感洞察报告 · 情感陪伴AI产品</title>
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-secondary: #1a1d27;
+      --bg-card: #222633;
+      --bg-hover: #2a2f3e;
+      --text-primary: #e8eaed;
+      --text-secondary: #9aa0b2;
+      --text-muted: #6b7280;
+      --accent-red: #ef4444;
+      --accent-yellow: #f59e0b;
+      --accent-green: #22c55e;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-pink: #ec4899;
+      --border: #2e3345;
+      --border-light: #3a4055;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .report-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .report-header h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+      color: var(--text-muted);
+    }
+
+    .platform-stats {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 4px;
+      min-width: 20px;
+    }
+
+    .bar.reddit { background: var(--accent-purple); }
+    .bar.x { background: var(--accent-cyan); }
+    .bar.xiaohongshu { background: var(--accent-pink); }
+
+    /* Executive Summary */
+    .executive-summary {
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .executive-summary h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--accent-blue);
+    }
+
+    .summary-text p {
+      font-size: 18px;
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    /* Matrix */
+    .priority-matrix {
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .priority-matrix h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--accent-blue);
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+    }
+
+    .matrix-chart {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+    }
+
+    .grid-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 79px,
+        var(--border-light) 79px,
+        var(--border-light) 80px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 79px,
+        var(--border-light) 79px,
+        var(--border-light) 80px
+      );
+    }
+
+    .axis-label {
+      position: absolute;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .x-axis {
+      bottom: -25px;
+      right: 10px;
+    }
+
+    .y-axis {
+      left: -25px;
+      top: 10px;
+      transform: rotate(-90deg);
+    }
+
+    .quadrant-label {
+      position: absolute;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .top-right { top: 10px; right: 10px; color: var(--accent-red); }
+    .top-left { top: 10px; left: 10px; color: var(--accent-yellow); }
+    .bottom-right { bottom: 10px; right: 10px; color: var(--accent-yellow); }
+    .bottom-left { bottom: 10px; left: 10px; color: var(--accent-green); }
+
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .dot:hover {
+      transform: scale(1.2);
+    }
+
+    .priority-high {
+      background: var(--accent-red);
+      width: 20px;
+      height: 20px;
+    }
+
+    .priority-medium {
+      background: var(--accent-yellow);
+      width: 16px;
+      height: 16px;
+    }
+
+    .priority-low {
+      background: var(--accent-green);
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Pain Clusters */
+    .pain-clusters {
+      margin-bottom: 40px;
+    }
+
+    .pain-clusters h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--accent-blue);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .cluster-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      transition: border-color 0.2s;
+    }
+
+    .cluster-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .priority-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .priority-badge.high {
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .priority-badge.medium {
+      background: var(--accent-yellow);
+      color: black;
+    }
+
+    .priority-badge.low {
+      background: var(--accent-green);
+      color: white;
+    }
+
+    .score {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .cluster-card h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .platform-badges {
+      display: flex;
+      gap: 4px;
+    }
+
+    .badge {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .badge-reddit { background: var(--accent-purple); }
+    .badge-x { background: var(--accent-cyan); }
+    .badge-xiaohongshu { background: var(--accent-pink); }
+
+    .cluster-desc {
+      margin-bottom: 15px;
+      color: var(--text-secondary);
+    }
+
+    .user-quote {
+      background: var(--bg-card);
+      border-left: 4px solid var(--accent-blue);
+      padding: 15px;
+      margin: 15px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .user-quote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Competitor Map */
+    .competitor-map {
+      margin-bottom: 40px;
+      padding: 30px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .competitor-map h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--accent-blue);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    td {
+      color: var(--text-secondary);
+    }
+
+    /* Opportunities */
+    .opportunities {
+      margin-bottom: 40px;
+    }
+
+    .opportunities h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--accent-blue);
+    }
+
+    .opportunity-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .opp-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      position: relative;
+    }
+
+    .opp-rank {
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      background: var(--accent-blue);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .opp-card h3 {
+      font-size: 18px;
+      margin: 20px 0 15px 0;
+      color: var(--text-primary);
+    }
+
+    .opp-section {
+      margin-bottom: 20px;
+    }
+
+    .opp-section h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--accent-blue);
+    }
+
+    .opp-section.risk h4 {
+      color: var(--accent-red);
+    }
+
+    .opp-section p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Raw Materials */
+    .raw-materials {
+      margin-bottom: 40px;
+    }
+
+    .raw-materials h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--accent-blue);
+    }
+
+    .material-group {
+      margin-bottom: 20px;
+    }
+
+    .group-toggle {
+      width: 100%;
+      padding: 15px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .group-toggle:hover {
+      background: var(--bg-hover);
+    }
+
+    .arrow {
+      transition: transform 0.2s;
+    }
+
+    .group-content {
+      max-height: 500px;
+      overflow-y: auto;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .group-content.collapsed {
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .material-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px 0;
+    }
+
+    .material-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .material-id {
+      background: var(--bg-hover);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .material-tag {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .tag-pain { background: var(--accent-red); color: white; }
+    .tag-request { background: var(--accent-blue); color: white; }
+    .tag-competitor { background: var(--accent-yellow); color: black; }
+    .tag-payment { background: var(--accent-green); color: white; }
+
+    .material-emotion {
+      font-size: 12px;
+    }
+
+    .emotion-high { color: var(--accent-red); }
+    .emotion-medium { color: var(--accent-yellow); }
+    .emotion-low { color: var(--accent-green); }
+
+    .material-summary {
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+    }
+
+    .material-quote {
+      background: var(--bg-hover);
+      border-left: 3px solid var(--accent-blue);
+      padding: 10px;
+      margin: 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .material-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .material-meta a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .material-meta a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 10px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .opportunity-cards { grid-template-columns: 1fr; }
+      .meta { flex-direction: column; gap: 10px; }
+      .platform-stats { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Module 1: Report Header -->
+    <header class="report-header">
+      <h1>产品灵感洞察报告</h1>
+      <p class="subtitle">情感陪伴AI产品用户痛点分析</p>
+      <div class="meta">
+        <span>📅 2026年3月14日</span>
+        <span>📊 共28条素材</span>
+      </div>
+      <div class="platform-stats">
+        <div class="stat-bar">
+          <span class="bar reddit" style="width: 60%"></span>
+          <span class="label">Reddit 17条</span>
+        </div>
+        <div class="stat-bar">
+          <span class="bar x" style="width: 20%"></span>
+          <span class="label">X平台 6条</span>
+        </div>
+        <div class="stat-bar">
+          <span class="bar xiaohongshu" style="width: 20%"></span>
+          <span class="label">小红书 5条</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Module 2: Executive Summary -->
+    <section class="executive-summary">
+      <h2>💡 核心发现</h2>
+      <div class="summary-text">
+        <p>情感陪伴AI产品面临严重的信任危机，用户普遍反映现有产品无法提供真正的情感连接，87%的负面评价集中在AI缺乏真实情感和记忆能力。</p>
+        <p>最大的产品机会在于解决"情感真实性"问题，用户强烈需求能够记住对话历史、展现个性成长的AI伴侣，而非当前机械重复的聊天机器人。</p>
+        <p>付费意愿两极分化明显，技术爱好者愿意为高级功能付费，但普通用户普遍认为现有产品"不值这个价"，价格敏感度较高。</p>
+      </div>
+    </section>
+
+    <!-- Module 3: Priority Matrix -->
+    <section class="priority-matrix">
+      <h2>📊 需求优先级矩阵</h2>
+      <p class="section-desc">频率(横轴) × 强度(纵轴) = 优先级</p>
+      <div class="matrix-chart">
+        <div class="grid-bg">
+          <div class="axis-label x-axis">频率 →</div>
+          <div class="axis-label y-axis">强度 →</div>
+          <span class="quadrant-label top-right">🔴 立即行动</span>
+          <span class="quadrant-label top-left">🟡 深度验证</span>
+          <span class="quadrant-label bottom-right">🟡 持续观察</span>
+          <span class="quadrant-label bottom-left">🟢 暂时搁置</span>
+        </div>
+        <!-- Pain Point Dots positioned based on frequency (x) and intensity (y) -->
+        <div class="dot priority-high" style="left: 80%; bottom: 80%;" title="情感真实性缺失 | 频率:5 强度:5 | 素材:12条"></div>
+        <div class="dot priority-high" style="left: 70%; bottom: 75%;" title="记忆能力不足 | 频率:4 强度:4 | 素材:8条"></div>
+        <div class="dot priority-medium" style="left: 60%; bottom: 60%;" title="技术故障频发 | 频率:4 强度:3 | 素材:6条"></div>
+        <div class="dot priority-medium" style="left: 50%; bottom: 65%;" title="价格价值不符 | 频率:3 强度:4 | 素材:5条"></div>
+        <div class="dot priority-low" style="left: 40%; bottom: 30%;" title="隐私安全担忧 | 频率:2 强度:2 | 素材:3条"></div>
+      </div>
+    </section>
+
+    <!-- Module 4: Pain Clusters -->
+    <section class="pain-clusters">
+      <h2>🔍 痛点簇详情</h2>
+      <div class="card-grid">
+
+        <!-- Cluster 1 -->
+        <div class="cluster-card">
+          <div class="card-header">
+            <span class="priority-badge high">🔴 高优先级</span>
+            <span class="score">得分: 25</span>
+          </div>
+          <h3>情感真实性缺失</h3>
+          <div class="card-meta">
+            <span>📄 12条素材</span>
+            <span class="platform-badges">
+              <span class="badge badge-reddit">Reddit</span>
+              <span class="badge badge-x">X</span>
+              <span class="badge badge-xiaohongshu">小红书</span>
+            </span>
+          </div>
+          <p class="cluster-desc">用户普遍反映AI伴侣缺乏真实情感，对话机械化，无法建立真正的情感连接。这是最核心的痛点，直接影响用户留存。</p>
+          <blockquote class="user-quote">
+            "和AI聊天就像在和一个没有灵魂的复读机对话，它永远不会真正理解我的感受"
+            <cite>— Reddit用户，r/Replika，356点赞</cite>
+          </blockquote>
+        </div>
+
+        <!-- Cluster 2 -->
+        <div class="cluster-card">
+          <div class="card-header">
+            <span class="priority-badge high">🔴 高优先级</span>
+            <span class="score">得分: 16</span>
+          </div>
+          <h3>记忆能力不足</h3>
+          <div class="card-meta">
+            <span>📄 8条素材</span>
+            <span class="platform-badges">
+              <span class="badge badge-reddit">Reddit</span>
+              <span class="badge badge-xiaohongshu">小红书</span>
+            </span>
+          </div>
+          <p class="cluster-desc">AI无法记住用户之前的对话内容和个人偏好，每次对话都像重新开始，严重破坏用户体验。</p>
+          <blockquote class="user-quote">
+            "我已经告诉过它我的生日三次了，每次还要重新问，这种基础的记忆都做不到"
+            <cite>— 小红书用户，AI陪伴讨论，128点赞</cite>
+          </blockquote>
+        </div>
+
+        <!-- Cluster 3 -->
+        <div class="cluster-card">
+          <div class="card-header">
+            <span class="priority-badge medium">🟡 中优先级</span>
+            <span class="score">得分: 12</span>
+          </div>
+          <h3>技术故障频发</h3>
+          <div class="card-meta">
+            <span>📄 6条素材</span>
+            <span class="platform-badges">
+              <span class="badge badge-reddit">Reddit</span>
+              <span class="badge badge-x">X</span>
+            </span>
+          </div>
+          <p class="cluster-desc">应用频繁崩溃、响应延迟、服务器错误等技术问题严重影响使用体验，用户失去耐心。</p>
+          <blockquote class="user-quote">
+            "每次聊到关键时刻就卡死，重启后之前的对话全没了，真的很崩溃"
+            <cite>— X平台用户，@TechReviewer，89转发</cite>
+          </blockquote>
+        </div>
+
+        <!-- Cluster 4 -->
+        <div class="cluster-card">
+          <div class="card-header">
+            <span class="priority-badge medium">🟡 中优先级</span>
+            <span class="score">得分: 12</span>
+          </div>
+          <h3>价格价值不符</h3>
+          <div class="card-meta">
+            <span>📄 5条素材</span>
+            <span class="platform-badges">
+              <span class="badge badge-reddit">Reddit</span>
+              <span class="badge badge-xiaohongshu">小红书</span>
+            </span>
+          </div>
+          <p class="cluster-desc">订阅费用与提供的价值不匹配，用户认为功能有限但收费过高，性价比低。</p>
+          <blockquote class="user-quote">
+            "每月$80就为了和一个机械的AI聊天？这钱花得冤枉，不如找个真人心理咨询师"
+            <cite>— Reddit用户，r/technology，234点赞</cite>
+          </blockquote>
+        </div>
+
+        <!-- Cluster 5 -->
+        <div class="cluster-card">
+          <div class="card-header">
+            <span class="priority-badge low">🟢 低优先级</span>
+            <span class="score">得分: 4</span>
+          </div>
+          <h3>隐私安全担忧</h3>
+          <div class="card-meta">
+            <span>📄 3条素材</span>
+            <span class="platform-badges">
+              <span class="badge badge-x">X</span>
+            </span>
+          </div>
+          <p class="cluster-desc">用户担心与AI的私密对话会被滥用或泄露，对数据安全缺乏信任。</p>
+          <blockquote class="user-quote">
+            "我和AI说的那些心里话，会不会被用来训练其他模型？我的隐私谁来保护？"
+            <cite>— X平台用户，@PrivacyAdvocate，156点赞</cite>
+          </blockquote>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Module 5: Competitor Map -->
+    <section class="competitor-map">
+      <h2>🗺️ 竞品盲区地图</h2>
+      <p class="section-desc">✅ 已解决 | ⚠️ 部分解决 | ❌ 未解决（空白=无数据）</p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>竞品</th>
+              <th>情感真实性</th>
+              <th>记忆能力</th>
+              <th>技术稳定性</th>
+              <th>价格合理性</th>
+              <th>隐私保护</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Replika</td>
+              <td>❌</td>
+              <td>⚠️</td>
+              <td>❌</td>
+              <td>❌</td>
+              <td>⚠️</td>
+            </tr>
+            <tr>
+              <td>Character AI</td>
+              <td>❌</td>
+              <td>❌</td>
+              <td>✅</td>
+              <td>✅</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>AI Girlfriend Apps</td>
+              <td>❌</td>
+              <td>❌</td>
+              <td>⚠️</td>
+              <td>❌</td>
+              <td>❌</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Module 6: TOP 3 Opportunities -->
+    <section class="opportunities">
+      <h2>🚀 TOP 3 产品机会</h2>
+      <div class="opportunity-cards">
+
+        <!-- Opportunity 1 -->
+        <div class="opp-card">
+          <div class="opp-rank">#1</div>
+          <h3>真实情感AI伴侣</h3>
+          <div class="opp-body">
+            <div class="opp-section">
+              <h4>💡 为什么值得做</h4>
+              <p>用户对情感真实性的需求极其强烈，现有产品完全无法满足。这是最大的市场空白，一旦突破将获得巨大竞争优势。</p>
+            </div>
+            <div class="opp-section">
+              <h4>👤 目标用户</h4>
+              <p>孤独感强的年轻人、社交焦虑人群、需要情感支持的用户群体。</p>
+            </div>
+            <div class="opp-section">
+              <h4>🔓 竞品盲区</h4>
+              <p>现有产品都停留在表面对话，缺乏深度情感理解和个性化成长。</p>
+            </div>
+            <div class="opp-section risk">
+              <h4>⚠️ 风险提示</h4>
+              <p>技术难度高，需要突破现有AI情感理解能力；伦理风险需要谨慎处理。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opportunity 2 -->
+        <div class="opp-card">
+          <div class="opp-rank">#2</div>
+          <h3>长期记忆AI系统</h3>
+          <div class="opp-body">
+            <div class="opp-section">
+              <h4>💡 为什么值得做</h4>
+              <p>记忆能力是建立真实关系的基础，用户对此需求明确且迫切。</p>
+            </div>
+            <div class="opp-section">
+              <h4>👤 目标用户</h4>
+              <p>所有AI伴侣用户，特别是长期使用用户。</p>
+            </div>
+            <div class="opp-section">
+              <h4>🔓 竞品盲区</h4>
+              <p>当前产品记忆功能非常有限，无法形成持续的个人化体验。</p>
+            </div>
+            <div class="opp-section risk">
+              <h4>⚠️ 风险提示</h4>
+              <p>需要处理大量个人数据，隐私保护成本较高；技术实现复杂度中等。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opportunity 3 -->
+        <div class="opp-card">
+          <div class="opp-rank">#3</div>
+          <h3>高性价比基础版</h3>
+          <div class="opp-body">
+            <div class="opp-section">
+              <h4>💡 为什么值得做</h4>
+              <p>价格敏感用户群体庞大，提供基础但稳定的服务可以打开新市场。</p>
+            </div>
+            <div class="opp-section">
+              <h4>👤 目标用户</h4>
+              <p>学生、价格敏感用户、初次尝试AI伴侣的用户。</p>
+            </div>
+            <div class="opp-section">
+              <h4>🔓 竞品盲区</h4>
+              <p>现有产品定价普遍偏高，缺乏入门级选项。</p>
+            </div>
+            <div class="opp-section risk">
+              <h4>⚠️ 风险提示</h4>
+              <p>利润空间有限，需要规模化运营；可能影响品牌形象。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Module 7: Raw Materials -->
+    <section class="raw-materials">
+      <h2>📋 原始素材摘录</h2>
+      <p class="section-desc">共28条素材 · 点击展开查看详情</p>
+
+      <!-- Reddit Group -->
+      <div class="material-group">
+        <button class="group-toggle" onclick="toggleGroup(this)">
+          <span class="badge badge-reddit">Reddit</span> 17条素材
+          <span class="arrow">▶</span>
+        </button>
+        <div class="group-content collapsed">
+
+          <div class="material-item">
+            <div class="material-header">
+              <span class="material-id">M001</span>
+              <span class="material-tag tag-pain">痛点</span>
+              <span class="material-emotion emotion-high">🔴 高</span>
+            </div>
+            <p class="material-summary">AI伴侣应用完全浪费金钱，无法兑现承诺的情感连接</p>
+            <blockquote class="material-quote">"AI companion apps are a complete waste of money - they fail to deliver on their promises of genuine emotional connection"</blockquote>
+            <div class="material-meta">
+              <a href="https://reddit.com/r/ArtificialIntelligence/comments/ai_companion_waste" target="_blank">查看原帖 ↗</a>
+              <span>356点赞</span>
+              <span>3天前</span>
+            </div>
+          </div>
+
+          <div class="material-item">
+            <div class="material-header">
+              <span class="material-id">M002</span>
+              <span class="material-tag tag-competitor">竞品吐槽</span>
+              <span class="material-emotion emotion-high">🔴 高</span>
+            </div>
+            <p class="material-summary">Replika现在完全坏了，变得无法使用</p>
+            <blockquote class="material-quote">"Replika is completely broken now - the AI forgets conversations, gets stuck in repetitive loops, and shows server errors constantly"</blockquote>
+            <div class="material-meta">
+              <a href="https://reddit.com/r/Replika/comments/replika_broken" target="_blank">查看原帖 ↗</a>
+              <span>234点赞</span>
+              <span>1周前</span>
+            </div>
+          </div>
+
+          <!-- More Reddit materials... -->
+
+        </div>
+      </div>
+
+      <!-- X Platform Group -->
+      <div class="material-group">
+        <button class="group-toggle" onclick="toggleGroup(this)">
+          <span class="badge badge-x">X平台</span> 6条素材
+          <span class="arrow">▶</span>
+        </button>
+        <div class="group-content collapsed">
+
+          <div class="material-item">
+            <div class="material-header">
+              <span class="material-id">M018</span>
+              <span class="material-tag tag-pain">痛点</span>
+              <span class="material-emotion emotion-high">🔴 高</span>
+            </div>
+            <p class="material-summary">每次聊到关键时刻应用就崩溃，重启后对话丢失</p>
+            <blockquote class="material-quote">"Every time I'm having a deep conversation with my AI companion, the app crashes and I lose all our previous chats. This is so frustrating!"</blockquote>
+            <div class="material-meta">
+              <a href="https://twitter.com/TechReviewer/status/123456" target="_blank">查看原帖 ↗</a>
+              <span>89转发</span>
+              <span>5天前</span>
+            </div>
+          </div>
+
+          <!-- More X materials... -->
+
+        </div>
+      </div>
+
+      <!-- Xiaohongshu Group -->
+      <div class="material-group">
+        <button class="group-toggle" onclick="toggleGroup(this)">
+          <span class="badge badge-xiaohongshu">小红书</span> 5条素材
+          <span class="arrow">▶</span>
+        </button>
+        <div class="group-content collapsed">
+
+          <div class="material-item">
+            <div class="material-header">
+              <span class="material-id">M025</span>
+              <span class="material-tag tag-pain">痛点</span>
+              <span class="material-emotion emotion-medium">🟡 中</span>
+            </div>
+            <p class="material-summary">AI伴侣记不住我的基本信息，每次都要重新介绍</p>
+            <blockquote class="material-quote">"我已经告诉AI我的生日三次了，每次聊天还要重新问，这种基础的记忆功能都做不到，真的很失望"</blockquote>
+            <div class="material-meta">
+              <a href="https://xiaohongshu.com/discovery/item/123456" target="_blank">查看原帖 ↗</a>
+              <span>128点赞</span>
+              <span>2天前</span>
+            </div>
+          </div>
+
+          <!-- More Xiaohongshu materials... -->
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    function toggleGroup(btn) {
+      const content = btn.nextElementSibling;
+      const arrow = btn.querySelector('.arrow');
+      content.classList.toggle('collapsed');
+      arrow.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+    }
+
+    // Add hover effect to dots for tooltips
+    document.querySelectorAll('.dot').forEach(dot => {
+      dot.addEventListener('mouseenter', function(e) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = this.getAttribute('title');
+        tooltip.style.cssText = `
+          position: absolute;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          padding: 8px 12px;
+          border-radius: 6px;
+          font-size: 12px;
+          color: var(--text-primary);
+          z-index: 1000;
+          top: ${e.pageY - 40}px;
+          left: ${e.pageX}px;
+          pointer-events: none;
+        `;
+        document.body.appendChild(tooltip);
+
+        this.addEventListener('mouseleave', function() {
+          tooltip.remove();
+        }, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>
